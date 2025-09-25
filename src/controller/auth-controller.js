@@ -1,5 +1,6 @@
 const db = require("../model/index");
 const jwtHelper = require("../helpers/jwt_helper");
+
 const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
