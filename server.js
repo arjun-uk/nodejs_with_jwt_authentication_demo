@@ -4,6 +4,7 @@ const masterRoutes = require('./src/routes/master');
 const authRoutes = require('./src/routes/auth');
 const apiMiddleware = require('./src/middleware/api_middleware');
 
+const db = require('./src/model');
 
 const sequelize = require('./src/database/index')
 const cors = require('cors');
@@ -19,24 +20,9 @@ app.use('/api', apiMiddleware);
 app.use('/api/masters',masterRoutes);
 app.use('/api/auth', authRoutes);
 
-
-
-sequelize.sync({ alter: true }).then(() => {
-    console.log("All models were synchronized successfully.");
-}).catch((error) => {
-    console.error("Error synchronizing models:", error);
-});
-
-sequelize.authenticate().then(() => {
-    console.log('Database connected...');
-}).catch(err => {
-    console.log('Error: ' + err);
-});
-
-
-
-
-
+db.sequelize.sync({ alter: true })
+  .then(() => console.log('✅ Database updated automatically'))
+  .catch(err => console.error('❌ Database sync error:', err));
 app.get('/', (req, res) => {
     HELPERS.successResponse(res, null,"Welcome to the API",0);
 });
